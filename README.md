@@ -1,8 +1,6 @@
 🐾 Veterinaria Store - Login App
 Una aplicación web construida con React, TypeScript y Tailwind CSS, que permite a los usuarios iniciar sesión en una tienda de productos veterinarios.
 
-📸 Vista previa
-(Si luego subes una imagen o gif, puedes ponerlo aquí)
 
 🚀 Tecnologías usadas
 ⚛️ React
