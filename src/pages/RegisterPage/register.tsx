@@ -91,6 +91,13 @@ export const Register: FC = () => {
                     >
                         Registrarse
                     </button>
+                    <p className="text-sm text-center mt-4">
+                        ¿Ya tienes cuenta?{' '}
+                        <a href="/" className="text-blue-600 hover:underline">
+                            Inicia sesión
+                        </a>
+                    </p>
+
                 </form>
             </div>
         </div>
