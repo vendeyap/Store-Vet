@@ -1,19 +1,17 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import User from "../models/user";
 
 const router = express.Router();
 
-router.post("/register", async (req, res) => {
-    try {
-        const { name, email, password } = req.body;
+router.post("/register", async (req: Request, res: Response) => {
+    const { name, email, password } = req.body;
 
-        // Verificar si ya existe
-        const exists = await User.findOne({ email });
-        if (exists) {
+    try {
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
             return res.status(400).json({ message: "El usuario ya existe" });
         }
 
-        // Crear nuevo usuario
         const newUser = new User({ name, email, password });
         await newUser.save();
 
