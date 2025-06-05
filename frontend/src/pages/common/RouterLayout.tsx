@@ -1,12 +1,18 @@
-import {FC} from "react";
-import {Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
-export const RouterLayout: FC = () => {
-    return(
-        //Outlet nos permite establecer un slot o espacio vacío dentro de un componente, donde podemos renderizar el resultado de una ruta
+export const RouterLayout = () => {
+    return (
         <>
-            <Outlet/>
+            <nav>/* Aquí tu navbar o menú */</nav>
+            <main>
+                <Outlet />
+            </main>
         </>
-    )
-    };
+    );
+};
+
+
+
+//nos permite establecer un slot o espacio vacío dentro de un componente, donde podemos renderizar el resultado de una ruta
+
 //Ruta layout para utilizar
