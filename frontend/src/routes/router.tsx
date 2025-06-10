@@ -8,7 +8,7 @@ import { StoreVet } from "../pages/StorePage/storeVet.tsx";
 export const AppRouter: FC = () => {
     return (
         <Routes>
-            {/* Rutas públicas sin layout */}
+            {/* Rutas públicas sin layout. */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
 
