@@ -1,104 +1,41 @@
-import {FC} from "react";
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
-type FormReg = {
-    name: string;
-    email: string;
-    password: string;
-    password_confirmation: string;
-};
+type FormData = { email: string; password: string; confirmPassword: string; };
 
-export const Register: FC = () => {
-    const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-    } = useForm<FormReg>();
+export const Register = () => {
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
+    const navigate = useNavigate();
 
-    const onSubmit = (data: FormReg) => {
-        console.log('registro exitoso:', data);
+    const onSubmit = (data: FormData) => {
+        console.log("Registro:", data);
+        navigate("/login");
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
-            <div className="bg-white shadow-md rounded-xl p-8 w-full max-w-md">
-                <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">Crear cuenta</h2>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                    {/* Nombre */}
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-lime-200 via-emerald-300 to-teal-500 px-4 py-12">
+            <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8">
+                <h2 className="text-3xl font-extrabold text-emerald-700 text-center mb-6">🐶 Regístrate</h2>
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Nombre completo</label>
-                        <input
-                            {...register('name', { required: 'El nombre es obligatorio' })}
-                            className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
+                        <label className="block text-teal-800 font-medium mb-1">Correo</label>
+                        <input {...register("email", { required: "Campo obligatorio" })} className="w-full px-4 py-2 border border-emerald-300 rounded-xl bg-emerald-50" />
+                        {errors.email && <p className="text-red-600 text-sm">{errors.email.message}</p>}
                     </div>
-
-                    {/* Email */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Correo electrónico</label>
-                        <input
-                            type="email"
-                            {...register('email', {
-                                required: 'El correo es obligatorio',
-                                pattern: {
-                                    value: /^\S+@\S+$/i,
-                                    message: 'Correo no válido',
-                                },
-                            })}
-                            className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
+                        <label className="block text-teal-800 font-medium mb-1">Contraseña</label>
+                        <input type="password" {...register("password", { required: "Campo obligatorio" })} className="w-full px-4 py-2 border border-emerald-300 rounded-xl bg-emerald-50" />
                     </div>
-
-                    {/* Contraseña */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700">Contraseña</label>
-                        <input
-                            type="password"
-                            {...register('password', {
-                                required: 'La contraseña es obligatoria',
-                                minLength: {
-                                    value: 6,
-                                    message: 'Debe tener al menos 6 caracteres',
-                                },
-                            })}
-                            className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>}
+                        <label className="block text-teal-800 font-medium mb-1">Confirmar Contraseña</label>
+                        <input type="password" {...register("confirmPassword", {
+                            validate: value => value === watch("password") || "Las contraseñas no coinciden"
+                        })} className="w-full px-4 py-2 border border-emerald-300 rounded-xl bg-emerald-50" />
+                        {errors.confirmPassword && <p className="text-red-600 text-sm">{errors.confirmPassword.message}</p>}
                     </div>
-
-                    {/* Confirmar Contraseña */}
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">Confirmar contraseña</label>
-                        <input
-                            type="password"
-                            {...register('password_confirmation', {
-                                required: 'Confirma tu contraseña',
-                                validate: value => value === watch('password') || 'Las contraseñas no coinciden',
-                            })}
-                            className="w-full mt-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        />
-                        {errors.password_confirmation && (
-                            <p className="text-red-500 text-sm mt-1">{errors.password_confirmation.message}</p>
-                        )}
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md transition"
-                    >
-                        Registrarse
-                    </button>
-                    <p className="text-sm text-center mt-4">
-                        ¿Ya tienes cuenta?{' '}
-                        <a href="/frontend/public" className="text-blue-600 hover:underline">
-                            Inicia sesión
-                        </a>
-                    </p>
-
+                    <button type="submit" className="w-full py-2 bg-emerald-500 text-white rounded-xl hover:bg-emerald-600">Registrarse</button>
                 </form>
+                <p className="mt-4 text-center text-sm text-gray-600">¿Ya tienes cuenta? <a href="/login" className="text-emerald-700 font-semibold hover:underline">Inicia sesión</a></p>
             </div>
         </div>
     );
