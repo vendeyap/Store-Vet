@@ -1,22 +1,43 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-type FormData = { email: string; password: string; confirmPassword: string; };
+type FormData = { name: string; email: string; password: string; confirmPassword: string; };
 
 export const Register = () => {
     const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
     const navigate = useNavigate();
 
-    const onSubmit = (data: FormData) => {
-        console.log("Registro:", data);
-        navigate("/login");
+    const onSubmit = async (data: FormData) => {
+        try {
+            await axios.post("http://localhost:4000/api/users/register", {
+                name: data.name,
+                email: data.email,
+                password: data.password,
+            });
+            alert(`🎉 Registro exitoso. ¡Bienvenida, ${data.name}!`);
+            navigate("/login");
+
+        } catch (error: any) {
+            alert(error.response?.data?.message || "❌ Error al registrar usuario");
+        }
     };
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-lime-200 via-emerald-300 to-teal-500 px-4 py-12">
             <div className="bg-white rounded-3xl shadow-2xl w-full max-w-md p-8">
                 <h2 className="text-3xl font-extrabold text-emerald-700 text-center mb-6">🐶 Regístrate</h2>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+                    <div>
+                        <label className="block text-teal-800 font-medium mb-1">Nombre</label>
+                        <input
+                            {...register("name", { required: "Campo obligatorio" })}
+                            className="w-full px-4 py-2 border border-emerald-300 rounded-xl bg-emerald-50"
+                        />
+                        {errors.name && <p className="text-red-600 text-sm">{errors.name.message}</p>}
+                    </div>
+
                     <div>
                         <label className="block text-teal-800 font-medium mb-1">Correo</label>
                         <input {...register("email", { required: "Campo obligatorio" })} className="w-full px-4 py-2 border border-emerald-300 rounded-xl bg-emerald-50" />
