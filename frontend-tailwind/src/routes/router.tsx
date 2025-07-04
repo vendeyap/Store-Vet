@@ -11,8 +11,9 @@ export const AppRouter: FC = () => {
         <Route path="/login" element={<Login />} />
          <Route path="/register" element={<Register />} />
          <Route path="/" element={<RouterLayout />}>
-             <Route index element={<StoreVet />} />
-          </Route>
+             <Route path="/" element={<StoreVet />} />
+
+         </Route>
        </Routes>
    );
 };
